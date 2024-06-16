@@ -4,12 +4,18 @@ import { checkvalidData } from "../utils/validation";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../slices/userSlice";
 
 const Login = () => {
   const [isLoginForm, setLoginForm] = useState("Log in");
   const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSignup = () => {
     setLoginForm(isLoginForm === "Log in" ? "Sign up" : "Log in");
@@ -19,7 +25,7 @@ const Login = () => {
   const password = useRef(null);
   const name = useRef(null);
 
-  const handleButtonClick = async (e) => {
+  const handleButtonClick = (e) => {
     e.preventDefault();
 
     // Validate the form data
@@ -28,26 +34,60 @@ const Login = () => {
 
     if (message) return;
 
-    try {
-      if (isLoginForm === "Sign up") {
-        // Signup logic
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email.current.value,
-          password.current.value
-        );
-        console.log(userCredential.user);
-      } else {
-        // Login logic
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email.current.value,
-          password.current.value
-        );
-        console.log(userCredential.user);
-      }
-    } catch (error) {
-      setErrorMessage(`${error.message} - ${error.code}`);
+    const photoURL =
+      "https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png";
+
+    if (isLoginForm === "Sign up") {
+      // Signup logic
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          console.log(userCredential.user);
+          updateProfile(userCredential.user, {
+            displayName: name.current.value,
+            photoURL: photoURL,
+          })
+            .then(() => {
+              // Profile updated!
+              const { uid, email, displayName } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+              navigate("/browse");
+            })
+            .catch((error) => {
+              setErrorMessage(error.message);
+            });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(`${errorMessage} - ${errorCode}`);
+        });
+    } else {
+      // Login logic
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          console.log(userCredential.user);
+          navigate("/browse");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(`${errorCode} - ${errorMessage}`);
+        });
     }
   };
 
