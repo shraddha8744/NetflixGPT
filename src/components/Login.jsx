@@ -7,14 +7,13 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../slices/userSlice";
+import { background_img, photoURL } from "../utils/constant";
 
 const Login = () => {
   const [isLoginForm, setLoginForm] = useState("Log in");
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSignup = () => {
@@ -33,9 +32,6 @@ const Login = () => {
     setErrorMessage(message);
 
     if (message) return;
-
-    const photoURL =
-      "https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png";
 
     if (isLoginForm === "Sign up") {
       // Signup logic
@@ -61,7 +57,6 @@ const Login = () => {
                   photoURL: photoURL,
                 })
               );
-              navigate("/browse");
             })
             .catch((error) => {
               setErrorMessage(error.message);
@@ -81,7 +76,6 @@ const Login = () => {
       )
         .then((userCredential) => {
           console.log(userCredential.user);
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -95,10 +89,7 @@ const Login = () => {
     <div>
       <Header />
       <div className="absolute">
-        <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/51c1d7f7-3179-4a55-93d9-704722898999/be90e543-c951-40d0-9ef5-e067f3e33d16/IN-en-20240610-popsignuptwoweeks-perspective_alpha_website_medium.jpg"
-          alt=""
-        />
+        <img src={background_img} alt="" />
       </div>
       <form
         action=""

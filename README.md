@@ -13,7 +13,11 @@
 -created redux with redux slice
 -implemented sign out
 -update profile api call
--fetch from  tmdb movies
+-bugfix:sign up useer displayname and profile picture update
+-bygFix:if user not looged in redurect to login page
+-add hardcoded value to constant file
+-register tmdb api and create an app there and get access token 
+-Get data from tmdb now plaing api calls
 
 # Features
 -Login/signup
