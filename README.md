@@ -18,6 +18,15 @@
 -add hardcoded value to constant file
 -register tmdb api and create an app there and get access token 
 -Get data from tmdb now plaing api calls
+-custom hooks for nowplaying movies
+-create movie slice
+-upadate store with movies data
+-plaining main conatiner and secondary container
+-fetch data for trailer video
+-update store with trailer video data
+-emebed the you tube video make it autoplay and mute
+-telwind class make it look awesome
+
 
 # Features
 -Login/signup

@@ -13,7 +13,6 @@ const useMovieTrailer = (movieID) => {
         `https://api.themoviedb.org/3/movie/${movieID}/videos`,
         API_OPTIONS
       );
-      console.log(response.data.results);
 
       const filteredData = response.data.results.filter(
         (e) => e.type === "Trailer"
@@ -22,7 +21,6 @@ const useMovieTrailer = (movieID) => {
         ? filteredData[0]
         : response.data.results[0];
 
-      console.log(trailer);
       dispatch(addTrailer(trailer));
     } catch (error) {
       console.error("Error fetching movie videos:", error);
