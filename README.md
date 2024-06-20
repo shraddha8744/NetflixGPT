@@ -25,7 +25,19 @@
 -fetch data for trailer video
 -update store with trailer video data
 -emebed the you tube video make it autoplay and mute
--telwind class make it look awesome
+-tailwind class make it look awesome
+-build secondary component
+-build movie card
+-tmdb image cdn url
+-made the browse page amzing with tailwind css
+-usepopularmovies and useTopRatedmovies custom hooks
+-Gpt search feature
+-gpt search bar
+-Multi Language in our App
+
+
+
+
 
 
 # Features
